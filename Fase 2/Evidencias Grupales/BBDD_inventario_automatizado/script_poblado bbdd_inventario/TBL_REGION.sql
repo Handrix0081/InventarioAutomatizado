@@ -1,0 +1,10 @@
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (1, 'Dongle', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (2, 'Wedangtemu', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (3, 'Sępopol', false);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (4, 'Toubao', false);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (5, 'Gangtun', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (6, 'Huangjia', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (7, 'Saurimo', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (8, 'Chidian', true);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (9, 'Shibganj', false);
+insert into TBL_REGION (IdRegion, NombreRegion, ActivoRegion) values (10, 'Novoul’yanovsk', false);

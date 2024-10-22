@@ -1,0 +1,10 @@
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (1, 'Valdivia', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (2, 'Donghe', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (3, 'Hamanoichi', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (4, 'Borlänge', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (5, 'Kristianstad', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (6, 'Kosti', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (7, 'Cikeusal', true);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (8, 'Dianbu', true);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (9, 'Hele', false);
+insert into TBL_CIUDAD (IdCiudad, NombreCiudad, ActivoCiudad) values (10, 'Kosmonosy', false);

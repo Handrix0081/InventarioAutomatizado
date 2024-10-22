@@ -1,0 +1,391 @@
+-- Generado por Oracle SQL Developer Data Modeler 19.2.0.182.1216
+--   en:        2024-10-21 21:18:26 CLST
+--   sitio:      Oracle Database 11g
+--   tipo:      Oracle Database 11g
+
+
+
+CREATE TABLE rbl_cesfamciudad (
+    tbl_cesfam_idcesfam   INTEGER NOT NULL,
+    tbl_ciudad_idciudad   INTEGER NOT NULL
+);
+
+ALTER TABLE rbl_cesfamciudad ADD CONSTRAINT rbl_cesfamciudad_pk PRIMARY KEY ( tbl_cesfam_idcesfam,
+                                                                              tbl_ciudad_idciudad );
+
+CREATE TABLE relation_19 (
+    tbl_cesfam_idcesfam                  INTEGER NOT NULL, 
+--  ERROR: Column name length exceeds maximum allowed length(30) 
+    tbl_usuario_cesfam_idusuariocesfam   INTEGER NOT NULL
+);
+
+ALTER TABLE relation_19 ADD CONSTRAINT relation_19_pk PRIMARY KEY ( tbl_cesfam_idcesfam,
+                                                                    tbl_usuario_cesfam_idusuariocesfam );
+
+CREATE TABLE rlt_cesfamguia (
+    tbl_cesfam_idcesfam   INTEGER NOT NULL,
+    tbl_guia_idguia       INTEGER NOT NULL
+);
+
+ALTER TABLE rlt_cesfamguia ADD CONSTRAINT rlt_cesfamguia_pk PRIMARY KEY ( tbl_cesfam_idcesfam,
+                                                                          tbl_guia_idguia );
+
+CREATE TABLE rtl_cesfamboleta (
+    tbl_cesfam_idcesfam   INTEGER NOT NULL,
+    tbl_boleta_idboleta   INTEGER NOT NULL
+);
+
+ALTER TABLE rtl_cesfamboleta ADD CONSTRAINT rtl_cesfamboleta_pk PRIMARY KEY ( tbl_cesfam_idcesfam,
+                                                                              tbl_boleta_idboleta );
+
+CREATE TABLE rtl_rol_programa (
+    tbl_rol_idroles           INTEGER NOT NULL,
+    tbl_programa_idprograma   INTEGER NOT NULL
+);
+
+ALTER TABLE rtl_rol_programa ADD CONSTRAINT rtl_rol_programa_pk PRIMARY KEY ( tbl_rol_idroles,
+                                                                              tbl_programa_idprograma );
+
+CREATE TABLE rtl_usuario_cesfam (
+    tbl_usuario_idusuario   INTEGER NOT NULL,
+    tbl_cesfam_idcesfam     INTEGER NOT NULL
+);
+
+ALTER TABLE rtl_usuario_cesfam ADD CONSTRAINT rtl_usuario_cesfam_pk PRIMARY KEY ( tbl_usuario_idusuario,
+                                                                                  tbl_cesfam_idcesfam );
+
+CREATE TABLE tbl_boleta (
+    idboleta                             INTEGER NOT NULL,
+    fechaboleta                          DATE NOT NULL,
+    usuarioboleta                        VARCHAR2(255) NOT NULL,
+    farmaceuticoboleta                   VARCHAR2(255) NOT NULL,
+    activoboleta                         CHAR(1) NOT NULL,
+    totalboleta                          INTEGER NOT NULL, 
+--  ERROR: Column name length exceeds maximum allowed length(30) 
+    tbl_usuario_cesfam_idusuariocesfam   INTEGER NOT NULL
+);
+
+ALTER TABLE tbl_boleta ADD CONSTRAINT tbl_boleta_pk PRIMARY KEY ( idboleta );
+
+CREATE TABLE tbl_cesfam (
+    idcesfam          INTEGER NOT NULL,
+    nombrecesfam      VARCHAR2(255) NOT NULL,
+    direccioncesfam   VARCHAR2(255) NOT NULL,
+    activocesfam      CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_cesfam ADD CONSTRAINT tbl_cesfam_pk PRIMARY KEY ( idcesfam );
+
+CREATE TABLE tbl_ciudad (
+    idciudad              INTEGER NOT NULL,
+    nombreciudad          VARCHAR2(255) NOT NULL,
+    tbl_comuna_idcomuna   INTEGER NOT NULL,
+    activociudad          CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_ciudad ADD CONSTRAINT tbl_ciudad_pk PRIMARY KEY ( idciudad );
+
+CREATE TABLE tbl_comuna (
+    idcomuna              INTEGER NOT NULL,
+    nombrecomuna          VARCHAR2(255) NOT NULL,
+    tbl_region_idregion   INTEGER NOT NULL,
+    activocomuna          CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_comuna ADD CONSTRAINT tbl_comuna_pk PRIMARY KEY ( idcomuna );
+
+CREATE TABLE tbl_guia (
+    idguia                      INTEGER NOT NULL,
+    fechaguia                   DATE NOT NULL,
+    traspasoguia                VARCHAR2 
+--  ERROR: VARCHAR2 size not specified 
+     NOT NULL,
+    reciboguia                  VARCHAR2(255) NOT NULL,
+    proveedorguia               VARCHAR2(255) NOT NULL,
+    cesfamguia                  VARCHAR2(255) NOT NULL,
+    tbl_proveedor_idproveedor   INTEGER NOT NULL,
+    activoguia                  CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_guia ADD CONSTRAINT tbl_guia_pk PRIMARY KEY ( idguia );
+
+CREATE TABLE tbl_laboratorio (
+    idlaboratorio       INTEGER NOT NULL,
+    nombrelaboratorio   VARCHAR2(255) NOT NULL,
+    activolaboratorio   CHAR(1) NOT NULL,
+    tbl_pais_idpais     INTEGER NOT NULL
+);
+
+ALTER TABLE tbl_laboratorio ADD CONSTRAINT tbl_laboratorio_pk PRIMARY KEY ( idlaboratorio );
+
+CREATE TABLE tbl_medicamento (
+    idmedicamento                     INTEGER NOT NULL,
+    nombrecomercialmedicamento        VARCHAR2(255) NOT NULL,
+    nombrefarmaceuticomedicamento     VARCHAR2(255) NOT NULL,
+    contenidomedicamento              INTEGER NOT NULL,
+    cantidadmedicamento               INTEGER NOT NULL,
+    activomedicamento                 CHAR(1) NOT NULL,
+    tbl_laboratorio_idlaboratorio     INTEGER NOT NULL, 
+--  ERROR: Column name length exceeds maximum allowed length(30) 
+    tbl_unidadmedida_idunidadmedida   INTEGER NOT NULL,
+    tbl_movimiento_idmovimiento       INTEGER NOT NULL
+);
+
+CREATE UNIQUE INDEX tbl_medicamento__idx ON
+    tbl_medicamento (
+        tbl_movimiento_idmovimiento
+    ASC );
+
+ALTER TABLE tbl_medicamento ADD CONSTRAINT tbl_medicamento_pk PRIMARY KEY ( idmedicamento );
+
+CREATE TABLE tbl_movimiento (
+    idmovimiento                    INTEGER NOT NULL,
+    cantidadmovimiento              INTEGER NOT NULL,
+    fechavencimientomovimiento      DATE NOT NULL,
+    preciomovimiento                INTEGER NOT NULL,
+    preciounitariomovimiento        INTEGER NOT NULL,
+    fechamovimineto                 DATE NOT NULL,
+    tbl_boleta_idboleta             INTEGER NOT NULL,
+    tbl_medicamento_idmedicamento   INTEGER NOT NULL,
+    tbl_guia_idguia                 INTEGER NOT NULL,
+    tipomovimiento                  VARCHAR2(255) NOT NULL,
+    activomovimiento                CHAR(1) NOT NULL
+);
+
+CREATE UNIQUE INDEX tbl_movimiento__idx ON
+    tbl_movimiento (
+        tbl_medicamento_idmedicamento
+    ASC );
+
+ALTER TABLE tbl_movimiento ADD CONSTRAINT tbl_movimiento_pk PRIMARY KEY ( idmovimiento );
+
+CREATE TABLE tbl_pais (
+    idpais       INTEGER NOT NULL,
+    nombrepais   VARCHAR2(255) NOT NULL,
+    activopais   CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_pais ADD CONSTRAINT tbl_pais_pk PRIMARY KEY ( idpais );
+
+CREATE TABLE tbl_programa (
+    idprograma            INTEGER NOT NULL,
+    nombreprograma        VARCHAR2(255) NOT NULL,
+    descripcionprograma   VARCHAR2(255) NOT NULL,
+    activoprograma        CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_programa ADD CONSTRAINT tbl_programa_pk PRIMARY KEY ( idprograma );
+
+CREATE TABLE tbl_proveedor (
+    idproveedor          INTEGER NOT NULL,
+    nombrepreveedor      VARCHAR2(100) NOT NULL,
+    direccionproveedor   VARCHAR2(255) NOT NULL,
+    telefonoproveedor    INTEGER NOT NULL,
+    emailproveedor       VARCHAR2(255) NOT NULL,
+    activoproveedor      CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_proveedor ADD CONSTRAINT tbl_proveedor_pk PRIMARY KEY ( idproveedor );
+
+CREATE TABLE tbl_region (
+    idregion       INTEGER NOT NULL,
+    nombreregion   VARCHAR2(255) NOT NULL,
+    activoregion   CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_region ADD CONSTRAINT tbl_region_pk PRIMARY KEY ( idregion );
+
+CREATE TABLE tbl_rol (
+    idroles          INTEGER NOT NULL,
+    nombrerol        VARCHAR2(100) NOT NULL,
+    descripcionrol   VARCHAR2(255) NOT NULL,
+    activorol        CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_rol ADD CONSTRAINT tbl_rol_pk PRIMARY KEY ( idroles );
+
+CREATE TABLE tbl_unidadmedida (
+    idunidadmedida            INTEGER NOT NULL,
+    descripcionunidadmedida   VARCHAR2(255) NOT NULL,
+    activounudadmedida        CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_unidadmedida ADD CONSTRAINT tbl_unidadmedida_pk PRIMARY KEY ( idunidadmedida );
+
+CREATE TABLE tbl_usuario (
+    idusuario           INTEGER NOT NULL,
+    nombreusuario       VARCHAR2(255) NOT NULL,
+    contraseñausuario   VARCHAR2(10) NOT NULL,
+    emailusuario        VARCHAR2(100) NOT NULL,
+    tbl_rol_idroles     INTEGER NOT NULL,
+    activousuario       CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_usuario ADD CONSTRAINT tbl_usuario_pk PRIMARY KEY ( idusuario );
+
+CREATE TABLE tbl_usuario_cesfam (
+    idusuariocesfam           INTEGER NOT NULL,
+    nombresusuariocesfam      VARCHAR2(255) NOT NULL,
+    apellidosusuario_cesfam   VARCHAR2 
+--  ERROR: VARCHAR2 size not specified 
+     NOT NULL,
+    direccionusuariocesfam    VARCHAR2 
+--  ERROR: VARCHAR2 size not specified 
+     NOT NULL,
+    emailusuariocesfam        VARCHAR2 
+--  ERROR: VARCHAR2 size not specified 
+     NOT NULL,
+    telefonousuariocesfam     INTEGER
+);
+
+ALTER TABLE tbl_usuario_cesfam ADD CONSTRAINT tbl_usuario_cesfam_pk PRIMARY KEY ( idusuariocesfam );
+
+ALTER TABLE rbl_cesfamciudad
+    ADD CONSTRAINT rbl_cesfamciudad_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rbl_cesfamciudad
+    ADD CONSTRAINT rbl_cesfamciudad_tbl_ciudad_fk FOREIGN KEY ( tbl_ciudad_idciudad )
+        REFERENCES tbl_ciudad ( idciudad );
+
+ALTER TABLE relation_19
+    ADD CONSTRAINT relation_19_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE relation_19
+    ADD CONSTRAINT relation_19_tbl_usuario_cesfam_fk FOREIGN KEY ( tbl_usuario_cesfam_idusuariocesfam )
+        REFERENCES tbl_usuario_cesfam ( idusuariocesfam );
+
+ALTER TABLE rlt_cesfamguia
+    ADD CONSTRAINT rlt_cesfamguia_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_cesfamguia
+    ADD CONSTRAINT rlt_cesfamguia_tbl_guia_fk FOREIGN KEY ( tbl_guia_idguia )
+        REFERENCES tbl_guia ( idguia );
+
+ALTER TABLE rtl_cesfamboleta
+    ADD CONSTRAINT rtl_cesfamboleta_tbl_boleta_fk FOREIGN KEY ( tbl_boleta_idboleta )
+        REFERENCES tbl_boleta ( idboleta );
+
+ALTER TABLE rtl_cesfamboleta
+    ADD CONSTRAINT rtl_cesfamboleta_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE rtl_rol_programa
+    ADD CONSTRAINT rtl_rol_programa_tbl_programa_fk FOREIGN KEY ( tbl_programa_idprograma )
+        REFERENCES tbl_programa ( idprograma );
+
+ALTER TABLE rtl_rol_programa
+    ADD CONSTRAINT rtl_rol_programa_tbl_rol_fk FOREIGN KEY ( tbl_rol_idroles )
+        REFERENCES tbl_rol ( idroles );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE rtl_usuario_cesfam
+    ADD CONSTRAINT rtl_usuario_cesfam_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE rtl_usuario_cesfam
+    ADD CONSTRAINT rtl_usuario_cesfam_tbl_usuario_fk FOREIGN KEY ( tbl_usuario_idusuario )
+        REFERENCES tbl_usuario ( idusuario );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE tbl_boleta
+    ADD CONSTRAINT tbl_boleta_tbl_usuario_cesfam_fk FOREIGN KEY ( tbl_usuario_cesfam_idusuariocesfam )
+        REFERENCES tbl_usuario_cesfam ( idusuariocesfam );
+
+ALTER TABLE tbl_ciudad
+    ADD CONSTRAINT tbl_ciudad_tbl_comuna_fk FOREIGN KEY ( tbl_comuna_idcomuna )
+        REFERENCES tbl_comuna ( idcomuna );
+
+ALTER TABLE tbl_comuna
+    ADD CONSTRAINT tbl_comuna_tbl_region_fk FOREIGN KEY ( tbl_region_idregion )
+        REFERENCES tbl_region ( idregion );
+
+ALTER TABLE tbl_guia
+    ADD CONSTRAINT tbl_guia_tbl_proveedor_fk FOREIGN KEY ( tbl_proveedor_idproveedor )
+        REFERENCES tbl_proveedor ( idproveedor );
+
+ALTER TABLE tbl_laboratorio
+    ADD CONSTRAINT tbl_laboratorio_tbl_pais_fk FOREIGN KEY ( tbl_pais_idpais )
+        REFERENCES tbl_pais ( idpais );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_laboratorio_fk FOREIGN KEY ( tbl_laboratorio_idlaboratorio )
+        REFERENCES tbl_laboratorio ( idlaboratorio );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_movimiento_fk FOREIGN KEY ( tbl_movimiento_idmovimiento )
+        REFERENCES tbl_movimiento ( idmovimiento );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_unidadmedida_fk FOREIGN KEY ( tbl_unidadmedida_idunidadmedida )
+        REFERENCES tbl_unidadmedida ( idunidadmedida );
+
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_boleta_fk FOREIGN KEY ( tbl_boleta_idboleta )
+        REFERENCES tbl_boleta ( idboleta );
+
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_guia_fk FOREIGN KEY ( tbl_guia_idguia )
+        REFERENCES tbl_guia ( idguia );
+
+--  ERROR: FK name length exceeds maximum allowed length(30) 
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_medicamento_fk FOREIGN KEY ( tbl_medicamento_idmedicamento )
+        REFERENCES tbl_medicamento ( idmedicamento );
+
+ALTER TABLE tbl_usuario
+    ADD CONSTRAINT tbl_usuario_tbl_rol_fk FOREIGN KEY ( tbl_rol_idroles )
+        REFERENCES tbl_rol ( idroles );
+
+
+
+-- Informe de Resumen de Oracle SQL Developer Data Modeler: 
+-- 
+-- CREATE TABLE                            22
+-- CREATE INDEX                             2
+-- ALTER TABLE                             46
+-- CREATE VIEW                              0
+-- ALTER VIEW                               0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE COLLECTION TYPE                   0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE STRUCTURED TYPE BODY              0
+-- CREATE CLUSTER                           0
+-- CREATE CONTEXT                           0
+-- CREATE DATABASE                          0
+-- CREATE DIMENSION                         0
+-- CREATE DIRECTORY                         0
+-- CREATE DISK GROUP                        0
+-- CREATE ROLE                              0
+-- CREATE ROLLBACK SEGMENT                  0
+-- CREATE SEQUENCE                          0
+-- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
+-- CREATE SYNONYM                           0
+-- CREATE TABLESPACE                        0
+-- CREATE USER                              0
+-- 
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+-- 
+-- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
+-- 
+-- ERRORS                                  16
+-- WARNINGS                                 0

@@ -1,0 +1,10 @@
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (1, 'Malchy Lacroutz', 'iB7~1#2M?T', 'mlacroutz0@ustream.tv', true);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (2, 'Gigi Durbann', 'dL7{kRPY', 'gdurbann1@state.gov', false);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (3, 'Tam Ravenscroft', 'nM5,sV(jwc.<wxs', 'travenscroft2@noaa.gov', false);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (4, 'Fina Delle', 'fB8)UFb0SKM54Qkk', 'fdelle3@sourceforge.net', false);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (5, 'Sophie Lord', 'eC4$h>S>', 'slord4@tamu.edu', false);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (6, 'Kale Neilands', 'wC2@wL2MHc', 'kneilands5@tmall.com', true);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (7, 'Georgeanna Banbury', 'oR2"Q30A)8', 'gbanbury6@google.fr', true);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (8, 'Kass Ortas', 'tT6)#JfYC&xzDq', 'kortas7@google.es', false);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (9, 'Cleve Mell', 'kB9|H@W/1t>+P', 'cmell8@dedecms.com', true);
+insert into TBL_USUARIO (IdUsuario, NombreUsuario, ContraseñaUsuario, EmailUsuario, ActivoUsuario) values (10, 'Otho Savory', 'gP6.r>{Ja,k=', 'osavory9@umn.edu', true);
