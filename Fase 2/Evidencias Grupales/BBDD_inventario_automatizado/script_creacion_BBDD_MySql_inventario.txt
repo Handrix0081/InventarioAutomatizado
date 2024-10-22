@@ -1,0 +1,313 @@
+-- Crear la base de datos si no existe
+CREATE DATABASE IF NOT EXISTS InventarioCESFAM;
+
+-- Usar la base de datos
+USE InventarioCESFAM;
+
+CREATE TABLE rlt_cesfamciudad (
+    tbl_cesfam_idcesfam INT NOT NULL,
+    tbl_ciudad_idciudad INT NOT NULL
+);
+
+ALTER TABLE rlt_cesfamciudad ADD CONSTRAINT rlt_cesfamciudad_pk PRIMARY KEY ( tbl_cesfam_idcesfam, tbl_ciudad_idciudad );
+
+CREATE TABLE rlt_cesfamusuario (
+    tbl_cesfam_idcesfam INT NOT NULL,
+    tbl_usuario_cesfam_idusuariocesfam INT NOT NULL
+);
+
+ALTER TABLE rlt_cesfamusuario ADD CONSTRAINT rlt_cesfamusuario_pk PRIMARY KEY ( tbl_cesfam_idcesfam, tbl_usuario_cesfam_idusuariocesfam );
+
+CREATE TABLE rlt_cesfamguia (
+    tbl_cesfam_idcesfam INT NOT NULL,
+    tbl_guia_idguia INT NOT NULL
+);
+
+ALTER TABLE rlt_cesfamguia ADD CONSTRAINT rlt_cesfamguia_pk PRIMARY KEY ( tbl_cesfam_idcesfam, tbl_guia_idguia );
+
+CREATE TABLE rlt_cesfamboleta (
+    tbl_cesfam_idcesfam INT NOT NULL,
+    tbl_boleta_idboleta INT NOT NULL
+);
+
+ALTER TABLE rlt_cesfamboleta ADD CONSTRAINT rlt_cesfamboleta_pk PRIMARY KEY ( tbl_cesfam_idcesfam, tbl_boleta_idboleta );
+
+CREATE TABLE rlt_rol_programa (
+    tbl_rol_idroles INT NOT NULL,
+    tbl_programa_idprograma INT NOT NULL
+);
+
+ALTER TABLE rlt_rol_programa ADD CONSTRAINT rlt_rol_programa_pk PRIMARY KEY ( tbl_rol_idroles, tbl_programa_idprograma );
+
+CREATE TABLE rlt_usuario_cesfam (
+    tbl_usuario_idusuario INT NOT NULL,
+    tbl_cesfam_idcesfam INT NOT NULL
+);
+
+ALTER TABLE rlt_usuario_cesfam ADD CONSTRAINT rlt_usuario_cesfam_pk PRIMARY KEY ( tbl_usuario_idusuario, tbl_cesfam_idcesfam );
+
+CREATE TABLE tbl_boleta (
+    idboleta INT NOT NULL,
+    fechaboleta DATE NOT NULL,
+    usuarioboleta VARCHAR(255) NOT NULL,
+    farmaceuticoboleta VARCHAR(255) NOT NULL,
+    activoboleta CHAR(1) NOT NULL,
+    totalboleta INT NOT NULL,
+    tbl_usuario_cesfam_idusuariocesfam INT NOT NULL
+);
+
+ALTER TABLE tbl_boleta ADD CONSTRAINT tbl_boleta_pk PRIMARY KEY ( idboleta );
+
+CREATE TABLE tbl_cesfam (
+    idcesfam INT NOT NULL,
+    nombrecesfam VARCHAR(255) NOT NULL,
+    direccioncesfam VARCHAR(255) NOT NULL,
+    activocesfam CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_cesfam ADD CONSTRAINT tbl_cesfam_pk PRIMARY KEY ( idcesfam );
+
+CREATE TABLE tbl_ciudad (
+    idciudad INT NOT NULL,
+    nombreciudad VARCHAR(255) NOT NULL,
+    tbl_comuna_idcomuna INT NOT NULL,
+    activociudad CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_ciudad ADD CONSTRAINT tbl_ciudad_pk PRIMARY KEY ( idciudad );
+
+CREATE TABLE tbl_comuna (
+    idcomuna INT NOT NULL,
+    nombrecomuna VARCHAR(255) NOT NULL,
+    tbl_region_idregion INT NOT NULL,
+    activocomuna CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_comuna ADD CONSTRAINT tbl_comuna_pk PRIMARY KEY ( idcomuna );
+
+CREATE TABLE tbl_guia (
+    idguia INT NOT NULL,
+    fechaguia DATE NOT NULL,
+    traspasoguia VARCHAR(255) NOT NULL,
+    reciboguia VARCHAR(255) NOT NULL,
+    proveedorguia VARCHAR(255) NOT NULL,
+    cesfamguia VARCHAR(255) NOT NULL,
+    tbl_proveedor_idproveedor INT NOT NULL,
+    activoguia CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_guia ADD CONSTRAINT tbl_guia_pk PRIMARY KEY ( idguia );
+
+CREATE TABLE tbl_laboratorio (
+    idlaboratorio INT NOT NULL,
+    nombrelaboratorio VARCHAR(255) NOT NULL,
+    activolaboratorio CHAR(1) NOT NULL,
+    tbl_pais_idpais INT NOT NULL
+);
+
+ALTER TABLE tbl_laboratorio ADD CONSTRAINT tbl_laboratorio_pk PRIMARY KEY ( idlaboratorio );
+
+CREATE TABLE tbl_medicamento (
+    idmedicamento INT NOT NULL,
+    nombrecomercialmedicamento VARCHAR(255) NOT NULL,
+    nombrefarmaceuticomedicamento VARCHAR(255) NOT NULL,
+    contenidomedicamento INT NOT NULL,
+    cantidadmedicamento INT NOT NULL,
+    activomedicamento CHAR(1) NOT NULL,
+    tbl_laboratorio_idlaboratorio INT NOT NULL,
+    tbl_unidadmedida_idunidadmedida INT NOT NULL,
+    tbl_movimiento_idmovimiento INT NOT NULL
+);
+
+CREATE UNIQUE INDEX tbl_medicamento__idx ON tbl_medicamento ( tbl_movimiento_idmovimiento ASC );
+
+ALTER TABLE tbl_medicamento ADD CONSTRAINT tbl_medicamento_pk PRIMARY KEY ( idmedicamento );
+
+CREATE TABLE tbl_movimiento (
+    idmovimiento INT NOT NULL,
+    cantidadmovimiento INT NOT NULL,
+    fechavencimientomovimiento DATE NOT NULL,
+    preciomovimiento INT NOT NULL,
+    preciounitariomovimiento INT NOT NULL,
+    fechamovimineto DATE NOT NULL,
+    tbl_boleta_idboleta INT NOT NULL,
+    tbl_medicamento_idmedicamento INT NOT NULL,
+    tbl_guia_idguia INT NOT NULL,
+    tipomovimiento VARCHAR(255) NOT NULL,
+    activomovimiento CHAR(1) NOT NULL
+);
+
+CREATE UNIQUE INDEX tbl_movimiento__idx ON tbl_movimiento ( tbl_medicamento_idmedicamento ASC );
+
+ALTER TABLE tbl_movimiento ADD CONSTRAINT tbl_movimiento_pk PRIMARY KEY ( idmovimiento );
+
+CREATE TABLE tbl_pais (
+    idpais INT NOT NULL,
+    nombrepais VARCHAR(255) NOT NULL,
+    activopais CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_pais ADD CONSTRAINT tbl_pais_pk PRIMARY KEY ( idpais );
+
+CREATE TABLE tbl_programa (
+    idprograma INT NOT NULL,
+    nombreprograma VARCHAR(255) NOT NULL,
+    descripcionprograma VARCHAR(255) NOT NULL,
+    activoprograma CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_programa ADD CONSTRAINT tbl_programa_pk PRIMARY KEY ( idprograma );
+
+CREATE TABLE tbl_proveedor (
+    idproveedor INT NOT NULL,
+    nombrepreveedor VARCHAR(100) NOT NULL,
+    direccionproveedor VARCHAR(255) NOT NULL,
+    telefonoproveedor INT NOT NULL,
+    emailproveedor VARCHAR(255) NOT NULL,
+    activoproveedor CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_proveedor ADD CONSTRAINT tbl_proveedor_pk PRIMARY KEY ( idproveedor );
+
+CREATE TABLE tbl_region (
+    idregion INT NOT NULL,
+    nombreregion VARCHAR(255) NOT NULL,
+    activoregion CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_region ADD CONSTRAINT tbl_region_pk PRIMARY KEY ( idregion );
+
+CREATE TABLE tbl_rol (
+    idroles INT NOT NULL,
+    nombrerol VARCHAR(100) NOT NULL,
+    descripcionrol VARCHAR(255) NOT NULL,
+    activorol CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_rol ADD CONSTRAINT tbl_rol_pk PRIMARY KEY ( idroles );
+
+CREATE TABLE tbl_unidadmedida (
+    idunidadmedida INT NOT NULL,
+    descripcionunidadmedida VARCHAR(255) NOT NULL,
+    activounidadmedida CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_unidadmedida ADD CONSTRAINT tbl_unidadmedida_pk PRIMARY KEY ( idunidadmedida );
+
+CREATE TABLE tbl_usuario (
+    idusuario INT NOT NULL,
+    nombreusuario VARCHAR(255) NOT NULL,
+    contraseñausuario VARCHAR(10) NOT NULL,
+    emailusuario VARCHAR(100) NOT NULL,
+    tbl_rol_idroles INT NOT NULL,
+    activousuario CHAR(1) NOT NULL
+);
+
+ALTER TABLE tbl_usuario ADD CONSTRAINT tbl_usuario_pk PRIMARY KEY ( idusuario );
+
+CREATE TABLE tbl_usuario_cesfam (
+    idusuariocesfam INT NOT NULL,
+    nombresusuariocesfam VARCHAR(255) NOT NULL,
+    apellidosusuario_cesfam VARCHAR(255) NOT NULL,
+    direccionusuariocesfam VARCHAR(255) NOT NULL,
+    emailusuariocesfam VARCHAR(255) NOT NULL,
+    telefonousuariocesfam INT
+);
+
+ALTER TABLE tbl_usuario_cesfam ADD CONSTRAINT tbl_usuario_cesfam_pk PRIMARY KEY ( idusuariocesfam );
+
+ALTER TABLE rlt_cesfamciudad
+    ADD CONSTRAINT rlt_cesfamciudad_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_cesfamciudad
+    ADD CONSTRAINT rlt_cesfamciudad_tbl_ciudad_fk FOREIGN KEY ( tbl_ciudad_idciudad )
+        REFERENCES tbl_ciudad ( idciudad );
+
+ALTER TABLE rlt_cesfamusuario
+    ADD CONSTRAINT rlt_cesfamusuario_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_cesfamusuario
+    ADD CONSTRAINT rlt_cesfamusuario_tbl_usuario_cesfam_fk FOREIGN KEY ( tbl_usuario_cesfam_idusuariocesfam )
+        REFERENCES tbl_usuario_cesfam ( idusuariocesfam );
+
+ALTER TABLE rlt_cesfamguia
+    ADD CONSTRAINT rlt_cesfamguia_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_cesfamguia
+    ADD CONSTRAINT rlt_cesfamguia_tbl_guia_fk FOREIGN KEY ( tbl_guia_idguia )
+        REFERENCES tbl_guia ( idguia );
+
+ALTER TABLE rlt_cesfamboleta
+    ADD CONSTRAINT rlt_cesfamboleta_tbl_boleta_fk FOREIGN KEY ( tbl_boleta_idboleta )
+        REFERENCES tbl_boleta ( idboleta );
+
+ALTER TABLE rlt_cesfamboleta
+    ADD CONSTRAINT rlt_cesfamboleta_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_rol_programa
+    ADD CONSTRAINT rlt_rol_programa_tbl_programa_fk FOREIGN KEY ( tbl_programa_idprograma )
+        REFERENCES tbl_programa ( idprograma );
+
+ALTER TABLE rlt_rol_programa
+    ADD CONSTRAINT rlt_rol_programa_tbl_rol_fk FOREIGN KEY ( tbl_rol_idroles )
+        REFERENCES tbl_rol ( idroles );
+
+ALTER TABLE rlt_usuario_cesfam
+    ADD CONSTRAINT rlt_usuario_cesfam_tbl_cesfam_fk FOREIGN KEY ( tbl_cesfam_idcesfam )
+        REFERENCES tbl_cesfam ( idcesfam );
+
+ALTER TABLE rlt_usuario_cesfam
+    ADD CONSTRAINT rlt_usuario_cesfam_tbl_usuario_fk FOREIGN KEY ( tbl_usuario_idusuario )
+        REFERENCES tbl_usuario ( idusuario );
+
+ALTER TABLE tbl_boleta
+    ADD CONSTRAINT tbl_boleta_tbl_usuario_cesfam_fk FOREIGN KEY ( tbl_usuario_cesfam_idusuariocesfam )
+        REFERENCES tbl_usuario_cesfam ( idusuariocesfam );
+
+ALTER TABLE tbl_ciudad
+    ADD CONSTRAINT tbl_ciudad_tbl_comuna_fk FOREIGN KEY ( tbl_comuna_idcomuna )
+        REFERENCES tbl_comuna ( idcomuna );
+
+ALTER TABLE tbl_comuna
+    ADD CONSTRAINT tbl_comuna_tbl_region_fk FOREIGN KEY ( tbl_region_idregion )
+        REFERENCES tbl_region ( idregion );
+
+ALTER TABLE tbl_guia
+    ADD CONSTRAINT tbl_guia_tbl_proveedor_fk FOREIGN KEY ( tbl_proveedor_idproveedor )
+        REFERENCES tbl_proveedor ( idproveedor );
+
+ALTER TABLE tbl_laboratorio
+    ADD CONSTRAINT tbl_laboratorio_tbl_pais_fk FOREIGN KEY ( tbl_pais_idpais )
+        REFERENCES tbl_pais ( idpais );
+
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_laboratorio_fk FOREIGN KEY ( tbl_laboratorio_idlaboratorio )
+        REFERENCES tbl_laboratorio ( idlaboratorio );
+
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_movimiento_fk FOREIGN KEY ( tbl_movimiento_idmovimiento )
+        REFERENCES tbl_movimiento ( idmovimiento );
+
+ALTER TABLE tbl_medicamento
+    ADD CONSTRAINT tbl_medicamento_tbl_unidadmedida_fk FOREIGN KEY ( tbl_unidadmedida_idunidadmedida )
+        REFERENCES tbl_unidadmedida ( idunidadmedida );
+
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_boleta_fk FOREIGN KEY ( tbl_boleta_idboleta )
+        REFERENCES tbl_boleta ( idboleta );
+
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_guia_fk FOREIGN KEY ( tbl_guia_idguia )
+        REFERENCES tbl_guia ( idguia );
+
+ALTER TABLE tbl_movimiento
+    ADD CONSTRAINT tbl_movimiento_tbl_medicamento_fk FOREIGN KEY ( tbl_medicamento_idmedicamento )
+        REFERENCES tbl_medicamento ( idmedicamento );
+
+ALTER TABLE tbl_usuario
+    ADD CONSTRAINT tbl_usuario_tbl_rol_fk FOREIGN KEY ( tbl_rol_idroles )
+        REFERENCES tbl_rol ( idroles );
