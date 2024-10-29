@@ -1,2 +1,2 @@
 # InventarioAutomatizado
-Aplicacion web utilizando Python y Django framework
+Aplicacion web utilizando Node.js y framework express
